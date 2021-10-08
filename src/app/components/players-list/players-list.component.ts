@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { PlayersService } from 'src/app/services/players/players.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Player } from 'src/app/interfaces/player';
@@ -7,6 +7,8 @@ import { Team } from 'src/app/interfaces/team';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 
@@ -22,7 +24,7 @@ import { PageEvent } from '@angular/material/paginator';
     ]),
   ],
 })
-export class PlayersListComponent implements OnInit {
+export class PlayersListComponent implements OnInit, OnDestroy {
 
   displayedColumnsPlayer = ['Position Color', 'ID', 'First Name', 'Last Name', 'Height Inches', 'Height Feet', 'Weight Pounds', 'Position']; 
   displayedColumnsTeam   = ['Abbreviation', 'City', 'Conference', 'Division', 'Full Name', 'ID', 'Name']
@@ -47,6 +49,9 @@ export class PlayersListComponent implements OnInit {
     total_count: number
     total_pages: number
   }
+
+  private _unsubscribeAll!: Subject<any>;
+  
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
 
   constructor(
@@ -55,7 +60,9 @@ export class PlayersListComponent implements OnInit {
     private formBuilder: FormBuilder,
     private renderer: Renderer2, 
     private elem: ElementRef
-  ) { }
+  ) {
+    this._unsubscribeAll = new Subject();
+  }
 
   ngOnInit(): void {
     this.getPlayers();
@@ -71,24 +78,24 @@ export class PlayersListComponent implements OnInit {
       position: [''],
     });
 
-    // this.filterFormGroup.valueChanges.subscribe(values => this.filterPlayers(values))
   }
 
   getPlayers(perPage=25, page=1):void{
-    this.playersService.getPlayers(perPage, page).subscribe((response: any) =>{
+    this.playersService.getPlayers(perPage, page)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((response: any) =>{
       this.dataSource = response.data;
       this.dataSourceFiltered = response.data;
       this.meta=response.meta
-
-      const list = this.elem.nativeElement.querySelectorAll('.mat-paginator-range-label');
-      list[0].innerHTML = 'Page: ' + this.meta.current_page.toString();
 
     })
   }
 
   getTeamID(teamID: number): void{
     this.team=undefined
-    this.teamsService.getTeam(teamID).subscribe((response: any) =>{
+    this.teamsService.getTeam(teamID)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((response: any) =>{
       this.team=response
     })
   }
@@ -140,4 +147,16 @@ export class PlayersListComponent implements OnInit {
     this.getPlayers(event.pageSize, event.pageIndex+1);
   }
 
+
+  /**
+     * On destroy
+     */
+   ngOnDestroy(): void
+   {
+       // Unsubscribe from all subscriptions
+       this._unsubscribeAll.next();
+       this._unsubscribeAll.complete();
+   }
+
 }
+

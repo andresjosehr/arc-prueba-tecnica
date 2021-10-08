@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { especialChars } from 'src/app/form-validators/especial-chars.validator';
 import { registerLocaleData } from '@angular/common';
@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../general/confirm-dialog/confirm-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { GlobalService } from 'src/app/services/global/global.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -33,7 +35,7 @@ import { GlobalService } from 'src/app/services/global/global.service';
     )
   ]
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, OnDestroy {
 
   firstFormGroup!: FormGroup;
   positionFormGroup!: FormGroup;
@@ -41,12 +43,24 @@ export class RegistrationComponent implements OnInit {
 
   isEditable: boolean=true;
   positions = ["A", "B", "C", "D"]
+
+  displayedColumns = ["Abbreviation", "Converence", "Comments", "Team Name", "City", "Actions"];
+  teams: any = new MatTableDataSource([]);
+  teamFormGroup!: FormGroup;
+  searchFormGroup!: FormGroup;
+  dataSource = new MatTableDataSource<any>();
+  action: "create" | "edit" = "create";
+  teamToEdit!: any;
+
+  private _unsubscribeAll!: Subject<any>;
   
   constructor(
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private globalService: GlobalService,
-  ) { }
+  ) {
+    this._unsubscribeAll = new Subject();
+  }
 
   ngOnInit(): void {
     this.initForms();
@@ -85,15 +99,21 @@ export class RegistrationComponent implements OnInit {
       age: [''],
     });
 
-    this.firstFormGroup.get('first_name')?.valueChanges.subscribe((first_name: string) =>{
+    this.firstFormGroup.get('first_name')?.valueChanges
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((first_name: string) =>{
       this.firstFormGroup.get('first_name')?.setValue(first_name.toUpperCase(),{emitEvent: false});
     });
 
-    this.firstFormGroup.get('last_name')?.valueChanges.subscribe((last_name: string) =>{
+    this.firstFormGroup.get('last_name')?.valueChanges
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((last_name: string) =>{
       this.firstFormGroup.get('last_name')?.setValue(last_name.toUpperCase(),{emitEvent: false});
     });
 
-    this.firstFormGroup.get('birth_date')?.valueChanges.subscribe((birth_date: string) =>{
+    this.firstFormGroup.get('birth_date')?.valueChanges
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((birth_date: string) =>{
       this.firstFormGroup.get('age')?.setValue(this.getAge(birth_date) ,{emitEvent: false});
     });
     
@@ -124,41 +144,6 @@ export class RegistrationComponent implements OnInit {
     
     return age;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  displayedColumns = ["Abbreviation", "Converence", "Comments", "Team Name", "City", "Actions"];
-  teams: any = new MatTableDataSource([]);
-  teamFormGroup!: FormGroup;
-  searchFormGroup!: FormGroup;
-  dataSource = new MatTableDataSource<any>();
-  action: "create" | "edit" = "create";
-  teamToEdit!: any;
-
-
-
-
-
-
-
-
-
 
 
   saveTeam(){
@@ -234,7 +219,7 @@ export class RegistrationComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this._unsubscribeAll)).subscribe(result => {
 
       this.globalService.openSnackbar("Eliminado exitosamente", "green-snackbar");
           this.teams.data = this.teams.data.filter((team: any) => team.id!=teamID)
@@ -242,6 +227,15 @@ export class RegistrationComponent implements OnInit {
           this.secondFormGroup.get("teams")?.setValue(this.dataSource.data)
     });
   }
+
+
+
+  ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 
 
 }
