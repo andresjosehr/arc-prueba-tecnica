@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PlayersListComponent } from './components/players-list/players-list.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 const routes: Routes = [
   {
@@ -10,6 +11,10 @@ const routes: Routes = [
   {
     path        : 'players-list',
     component   : PlayersListComponent
+  },
+  {
+    path        : 'registration',
+    component   : RegistrationComponent
   },
   {
     path      : 'auth/',

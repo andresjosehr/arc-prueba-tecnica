@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,7 +8,6 @@ import { Component, HostListener, OnInit } from '@angular/core';
 export class SidebarComponent implements OnInit {
   innerHeight!: string;
 
-  @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.innerHeight = 506 < window.innerHeight ? (window.innerHeight-60)+'px': 'auto';
   }

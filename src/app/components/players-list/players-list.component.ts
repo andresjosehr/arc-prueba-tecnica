@@ -49,7 +49,6 @@ export class PlayersListComponent implements OnInit {
   }
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
 
-
   constructor(
     private playersService: PlayersService,
     private teamsService: TeamsService,

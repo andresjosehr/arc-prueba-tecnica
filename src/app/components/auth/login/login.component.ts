@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { password } from 'src/app/form-validators/password.validator';
 import { user } from 'src/app/form-validators/user.validator';
 
@@ -13,7 +14,10 @@ export class LoginComponent implements OnInit {
   hidePassword = true;
   loginFormGroup!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -34,6 +38,9 @@ export class LoginComponent implements OnInit {
       this.loginFormGroup.get("privacyPolicies")?.markAsDirty()
       return;
     }
+
+    this.router.navigateByUrl('players-list');
+
   }
 
 }

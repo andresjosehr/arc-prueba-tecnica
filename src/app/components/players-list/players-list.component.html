@@ -1,6 +1,6 @@
 
 <div fxLayout='row'>
-    <div class="sidebar" fxFlex='15'>
+    <div #sidebarColumn class="sidebar" fxFlex='15'>
         <app-sidebar></app-sidebar>
     </div>
     <div fxFlex='85'>
@@ -107,14 +107,15 @@
                         </tr>
                         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
                     </table>
-                    <mat-paginator 
-                    *ngIf='dataSource.length'
-                    [length]="meta.total_count"
-                    [pageSize]="meta.per_page"
-                    [pageSizeOptions]="[25, 50, 100]"
-                    (page)="pageEvent($event)"
-                    aria-label="Select page"></mat-paginator>
             </div>
+            <mat-paginator 
+                        *ngIf='dataSource.length'
+                        [length]="meta.total_count"
+                        [pageSize]="meta.per_page"
+                        [pageSizeOptions]="[25, 50, 100]"
+                        (page)="pageEvent($event)"
+                        aria-label="Select page">
+                </mat-paginator>
         </div>
     </div>
 </div>

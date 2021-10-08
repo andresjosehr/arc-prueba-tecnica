@@ -15,6 +15,7 @@
         }
         .players-table{
             width: 100%;
+            
         }
 
         .search-button{
@@ -24,6 +25,11 @@
     }
 }
 
+::ng-deep .players-table{
+    height: 500px;
+    max-height: 500px;
+    overflow: auto;
+}
 ::ng-deep .players-table table{
     width: 100%;
 
