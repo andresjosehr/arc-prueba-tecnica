@@ -1,0 +1,67 @@
+<section class="login">
+    <div class="login-card">
+        <div fxLayout='row' class="login-card-content">
+            
+            <div class="left-side" fxFlex='40'>
+            </div>
+            <div class="right-side" fxFlex='60'>
+                <div class="version-switcher">
+                    <img width="35px" src="assets/switcher.png" alt="switcher">
+                    Click here to switch to previus ARC version
+                </div>
+                <div class="card-header">
+                    <p>SIGN IN</p>
+                    <h1>Welcome!</h1>
+                </div>
+
+                <div class="login-form" [formGroup]='loginFormGroup'>
+                    <div class="user-field">
+                        <mat-form-field>
+                            <mat-label>User</mat-label>
+                            <input formControlName='user' matInput>
+                            <mat-error *ngIf="loginFormGroup.get('user')?.hasError('digit')">The user can't have digit</mat-error>
+                            <mat-error *ngIf="loginFormGroup.get('user')?.hasError('uppercase')">The user can't have uppercase letters</mat-error>
+                            <mat-error *ngIf="loginFormGroup.get('user')?.hasError('especialCharacter')">The user can't have especial characters</mat-error>
+                            <mat-error *ngIf="loginFormGroup.get('user')?.hasError('required')">This Field is required</mat-error>
+
+                        </mat-form-field>
+                    </div>
+                    <div class="password-field">
+                        <mat-form-field>
+                            <mat-label>Password</mat-label>
+                            <input formControlName='password' matInput [type]="hidePassword ? 'password' : 'text'">
+                            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-pressed]="hidePassword">
+                                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error *ngIf="loginFormGroup.get('password')?.hasError('digit')">The password should have digit</mat-error>
+                            <mat-error *ngIf="loginFormGroup.get('password')?.hasError('uppercase')">The password should have uppercase letters</mat-error>
+                            <mat-error *ngIf="loginFormGroup.get('password')?.hasError('especialCharacter')">The password should have especial characters</mat-error>
+                            <mat-error *ngIf="loginFormGroup.get('password')?.hasError('required')">This Field is required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class='login-options' fxLayout="row warp">
+                        <div class='remember' fxFlex='50'>
+                            <mat-checkbox formControlName='remember' labelPosition='before' class="remember-checkbox">
+                                Remember Me
+                            </mat-checkbox>
+                        </div>
+                        <div class='forgot' fxFlex='50'>
+                            <a href="#">Forgot Password?</a>
+                        </div>
+                        <div class='privacy-policy' fxFlex='100'>
+                            <mat-checkbox formControlName='privacyPolicies' labelPosition='before'>I accept the privacy policies </mat-checkbox>
+                            <mat-error class='privacy-policies-error' *ngIf="loginFormGroup.get('privacyPolicies')?.hasError('required') && loginFormGroup.get('privacyPolicies')?.dirty">The privacy policies should be accepted</mat-error>
+                        </div>
+                    </div>
+                    <div class='submit'>
+                        <button mat-button (click)='submitForm()'>Sign in</button>
+                    </div>
+                </div>
+                <div class='sign-up'>
+                    Don't have an account? 
+                    <a href='#'>Sign up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
