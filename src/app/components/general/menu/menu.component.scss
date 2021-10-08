@@ -1,0 +1,39 @@
+@import 'src/variables';
+
+.menu{
+    width: 100%;
+    margin-bottom: 30px;
+    box-shadow: 0px 2px 5px 0px $lightGray;
+    -webkit-box-shadow: 0px 2px 5px 0px $lightGray;
+    -moz-box-shadow: 0px 2px 5px 0px $lightGray;
+
+    .menu-row{
+
+        padding: 10px 22px;
+        margin-bottom: 6px;
+
+        .menu-icon{
+            color: $yellow;
+        }
+        .user{
+            text-align: right;
+            color: $lightGray;
+        }
+    }
+}
+
+.breadcums{
+    padding: 0px 15px;
+    margin-bottom: 30px;
+    display: flex;
+    .text{
+        font-size: 22px;
+        color: $primary;
+        margin-top: 4px;
+    }
+    mat-icon{
+        color: $primary;
+        font-size: 25px;
+        margin-right: 10px;
+    }
+}

@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './components/auth/auth.module';
+import { GeneralModule } from './components/general/general.module';
+import { PlayersListModule } from './components/players-list/players-list.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,9 +17,12 @@ import { AuthModule } from './components/auth/auth.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
 
     // App Modules
-    AuthModule
+    AuthModule,
+    GeneralModule,
+    PlayersListModule
 
   ],
   providers: [],

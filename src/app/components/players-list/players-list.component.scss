@@ -1,0 +1,95 @@
+@import 'src/variables';
+
+::ng-deep .players-list{
+    padding: 0px 15px;
+    .filter{
+        text-align: center;
+        .filter-select{
+            width: 80px;
+            margin-left: 10px;
+        }
+
+        .filter-text{
+            width: 160px;
+            margin-left: 10px;
+        }
+        .players-table{
+            width: 100%;
+        }
+
+        .search-button{
+            color: $secundary;
+            margin-left: 10px;
+        }
+    }
+}
+
+::ng-deep .players-table table{
+    width: 100%;
+
+    .position-color{
+        content: " ";
+        background: $primary;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: solid 3px $white;
+        box-shadow: 0px 0px 5px 2px $gray;
+    }
+    .header-row{
+        background: $secundary;
+        th{
+            color: $white !important;
+            font-weight: 500;
+        }
+    }
+    .mat-row{
+        height: 0px !important;
+    }
+    .mat-row.element-row{
+        height: 48px !important;
+        transition: background .3s;
+        cursor: pointer;
+    }
+
+    .mat-row.element-row:hover{
+        height: 48px !important;
+        background: $green;
+        transition: background .3s;
+    }
+    .active-row{
+        background: $green;
+        transition: background .3s;
+    }
+    .player-team {
+        overflow: hidden;
+        .content{
+            padding: 20px;
+            .title{
+                font-size: 18px;
+                font-weight: 500;
+                color: $primary;
+                margin-bottom: 20px;
+            }
+            .team-information{
+                display: flex;
+                font-weight: 500;
+                color: $primary;
+                span{
+                    font-weight: normal;
+                    color: $gray;
+                }
+                div{
+                    width: 33%;
+                }
+            }
+            .spinner{
+                text-align: center;
+                mat-spinner{
+                    margin: auto;
+                }
+            }
+        }
+      }
+}
+  

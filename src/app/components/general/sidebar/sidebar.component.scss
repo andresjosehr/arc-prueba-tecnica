@@ -1,0 +1,63 @@
+@import 'src/variables';
+
+.sidebar{
+    width: 100%;
+    // height: -webkit-fill-available;
+    
+
+    .sidebar-content{
+        background: $primary;
+        background: linear-gradient(180deg, $primary 0%, $primary 10%, $secundary);
+        color: $white;
+        // height: inherit;
+        padding: 30px 0px;
+        .sidebar-header{
+            padding: 0px 15px;
+            .welcome{
+                color: $yellow;
+                font-size: 20px;
+            }
+            .app-name{
+                text-transform: uppercase;
+                font-size: 12px;
+            }
+            .menu-icon{
+                text-align: right;
+                mat-icon{
+                    margin: 8px 0;
+                    cursor: pointer;
+                }
+            }
+            .logo{
+                img{
+                    width: 20px;
+                    margin: 9px 0px;
+                }
+            }
+        }
+        .sidebar-body{
+            margin-top: 50px;
+            .title{
+                padding: 0px 15px;
+                text-transform: uppercase;
+                font-size: 12px;
+            }
+            .menu-list{
+                list-style: none;
+                padding: 0;
+                li{
+                    padding: 5px 15px;
+                    .menu-item{
+                        display: flex;
+                        mat-icon{
+                            font-size: 20px;
+                        }
+                        .text{
+                            margin-left: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

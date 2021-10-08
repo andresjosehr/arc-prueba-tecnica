@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
   submitForm(){
     if(this.loginFormGroup.invalid){
       this.loginFormGroup.markAllAsTouched();
-      
       this.loginFormGroup.get("privacyPolicies")?.markAsDirty()
+      return;
     }
   }
 

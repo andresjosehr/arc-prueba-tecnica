@@ -1,0 +1,27 @@
+<div class="menu">
+    <div class="menu-row" fxLayout="row">
+        <div class="menu-icon" fxFlex='50'>
+            <mat-icon>star</mat-icon>
+        </div>
+        <div fxFlex='50'>
+            <div class='user'>
+                <button mat-button [matMenuTriggerFor]="animals">
+                    <img width="32px" src="assets/avatar.png" alt="avatar">
+                    Johan Vargas Aranda <mat-icon>keyboard_arrow_down</mat-icon>
+
+                </button>
+                <mat-menu #animals="matMenu">
+                    <button mat-menu-item>Menu 1</button>
+                    <button mat-menu-item>Menu 2</button>
+                    <button mat-menu-item>Menu 3</button>
+                    <button mat-menu-item>Menu 4</button>
+                  </mat-menu>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="breadcums">
+    <mat-icon>blur_circular</mat-icon>
+    <div class='text'>Book of Bussiness Report</div>
+</div>
